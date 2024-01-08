@@ -10,7 +10,12 @@ const arrPopup = document.querySelectorAll(".popup");
 const popupTypeEdit = document.querySelector(".popup_type_edit");
 const popupTypeNewCard = document.querySelector(".popup_type_new-card");
 const popupTypeImage = document.querySelector(".popup_type_image");
-const popupClose = document.querySelectorAll(".popup__close");
+const popupForm = document.forms.edit_profile;
+const name = popupForm.elements.name;
+const description = popupForm.elements.description;
+const nameInput = document.querySelector('.profile__title');
+const jobInput = document.querySelector('.profile__description');
+const popupButtonSave = popupTypeEdit.querySelector('.popup__button')
 
 // @todo: Темплейт карточки
 function createCard(cardData, removeCard) {
@@ -46,6 +51,9 @@ initialCards.forEach((cardData) => {
 // Слушатели на кнопки для открытия попапов
 profileEditButton.addEventListener("click", () => {
   openPopup(popupTypeEdit);
+
+  name.value = nameInput.textContent;
+  description.value = jobInput.textContent;
 });
 profileAddButton.addEventListener("click", () => {
   openPopup(popupTypeNewCard);
@@ -76,7 +84,20 @@ function clickHandler(evt) {
       closePopup(popup);
     }
     if (evt.target.classList.contains("popup__close")) {
-      closePopup(popup)
+      closePopup(popup);
     }
   });
 }
+
+// Сохранение информации о пользователе
+function handleFormSubmit(evt) {
+  evt.preventDefault();
+  
+  nameInput.textContent = name.value;
+  jobInput.textContent = description.value;
+
+
+  closePopup(popupTypeEdit)
+}
+
+popupForm.addEventListener('submit', handleFormSubmit); 
