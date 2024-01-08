@@ -10,12 +10,13 @@ const arrPopup = document.querySelectorAll(".popup");
 const popupTypeEdit = document.querySelector(".popup_type_edit");
 const popupTypeNewCard = document.querySelector(".popup_type_new-card");
 const popupTypeImage = document.querySelector(".popup_type_image");
+const nameInput = document.querySelector('.profile__title');
+const jobInput = document.querySelector('.profile__description');
 const popupForm = document.forms.edit_profile;
 const name = popupForm.elements.name;
 const description = popupForm.elements.description;
-const nameInput = document.querySelector('.profile__title');
-const jobInput = document.querySelector('.profile__description');
-const popupButtonSave = popupTypeEdit.querySelector('.popup__button')
+const newPlace = document.forms.new_place;
+
 
 // @todo: Темплейт карточки
 function createCard(cardData, removeCard) {
@@ -95,9 +96,24 @@ function handleFormSubmit(evt) {
   
   nameInput.textContent = name.value;
   jobInput.textContent = description.value;
-
-
   closePopup(popupTypeEdit)
 }
 
 popupForm.addEventListener('submit', handleFormSubmit); 
+
+// Добавление новой карточки
+function handleFormSubmitCard(evt) {
+  evt.preventDefault();
+  const placeName = newPlace.elements.place_name.value;
+  const url = newPlace.elements.link.value;
+  let tmpObject = {
+    placeName,
+    url
+  };
+  initialCards.unshift(tmpObject);
+  tmpObject = {};
+  newPlace.reset();
+  closePopup(popupTypeNewCard);
+}
+
+newPlace.addEventListener('submit', handleFormSubmitCard);
