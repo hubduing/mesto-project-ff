@@ -30,3 +30,5 @@ const initialCards = [
       alt: "Берега озера Байкал.",
     }
 ];
+
+export default initialCards;
