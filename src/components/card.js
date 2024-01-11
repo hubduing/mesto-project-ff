@@ -1,8 +1,11 @@
 import { openPopupImage } from "./modal";
 import initialCards from "../scripts/cards.js";
-
-const newPlace = document.forms["new-place"];
-const cardsContainer = document.querySelector(".places__list");
+import { closePopup } from "./modal"; 
+import { 
+  popupTypeNewCard,
+  newPlace, 
+  cardsContainer
+} from "./constans.js";
 
 // @todo: Темплейт карточки
 export function createCard(cardData, removeCard) {
@@ -12,24 +15,28 @@ export function createCard(cardData, removeCard) {
   const buttonRemove = card.querySelector(".card__delete-button");
   const cardImage = card.querySelector(".card__image");
   const cardLikeButton = card.querySelector(".card__like-button");
-
   card.querySelector(".card__title").textContent = cardData.name;
   cardImage.src = cardData.link;
   cardImage.alt = cardData.alt;
-
-  buttonRemove.addEventListener("click", () => removeCard(card));
-
-  // Кнопка Like в карточках
-  cardLikeButton.addEventListener("click", () => {
-    cardLikeButton.classList.toggle("card__like-button_is-active");
-  });
-
-  // popup image
-  cardImage.addEventListener("click", () => {
-    openPopupImage(cardImage.src, cardImage.alt);
-  });
+  // удаление карточки
+  buttonRemove.addEventListener("click", () => removeCard(card)); 
+  // слушатель на открытие модального окна при нажатии на картинку
+  cardImage.addEventListener("click", () =>  openPopupImage(cardImage.src, cardImage.alt));
 
   return card;
+}
+
+// Кнопка Like в карточках
+export function addEventLike() {
+  const cardLikeArrayButton = document.querySelectorAll('.card__like-button');
+  
+  cardLikeArrayButton.forEach(likeButton => {
+    likeButton.addEventListener('click', () => clickLikeHandler(likeButton));
+  })
+}
+
+function clickLikeHandler(cardLikeButton) {
+  cardLikeButton.classList.toggle("card__like-button_is-active");
 }
 
 // @todo: Функция удаления карточки
@@ -40,15 +47,14 @@ export function removeCard(card) {
 export function handleFormSubmitCard(evt) {
   evt.preventDefault();
   const name = newPlace.elements["place-name"].value;
-  const url = newPlace.elements.link.value;
+  const link = newPlace.elements.link.value;
   const alt = "";
   let tempObject = {
     name,
-    url,
+    link,
     alt,
   };
-  initialCards.unshift(tempObject);
-  let cardTemplate = createCard(initialCards[0], removeCard);
+  let cardTemplate = createCard(tempObject, removeCard);
   cardsContainer.prepend(cardTemplate);
 
   newPlace.reset();
@@ -60,5 +66,6 @@ export function renderCards() {
     let cardTemplate = createCard(cardData, removeCard);
     cardsContainer.append(cardTemplate);
   });
-  newPlace.addEventListener("submit", handleFormSubmitCard);
 }
+
+newPlace.addEventListener("submit", handleFormSubmitCard);
