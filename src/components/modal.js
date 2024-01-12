@@ -1,6 +1,4 @@
-import { 
-  popupTypeImage
-} from "./constans";
+import { popupTypeImage } from "./constans";
 
 // Открытие popup image
 export function openPopupImage(cardImageSrc, cardImageAlt) {

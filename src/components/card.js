@@ -1,14 +1,27 @@
 import { openPopupImage } from "./modal";
 import initialCards from "../scripts/cards.js";
-import { closePopup } from "./modal"; 
-import { 
-  popupTypeNewCard,
-  newPlace, 
-  cardsContainer
-} from "./constans.js";
+import { closePopup } from "./modal";
+import { popupTypeNewCard, newPlace, cardsContainer } from "./constans.js";
+
+export function renderCards() {
+  initialCards.forEach((cardData) => {
+    let cardTemplate = createCard(
+      cardData,
+      removeCard,
+      addEventLike,
+      cardImageEventlistener
+    );
+    cardsContainer.append(cardTemplate);
+  });
+}
 
 // @todo: Темплейт карточки
-export function createCard(cardData, removeCard) {
+export function createCard(
+  cardData,
+  removeCard,
+  addEventLike,
+  cardImageEventlistener
+) {
   const cardTemplate = document.querySelector("#card-template").content;
   const container = cardTemplate.querySelector(".places__item");
   const card = container.cloneNode(true);
@@ -18,21 +31,26 @@ export function createCard(cardData, removeCard) {
   card.querySelector(".card__title").textContent = cardData.name;
   cardImage.src = cardData.link;
   cardImage.alt = cardData.alt;
-  // удаление карточки
-  buttonRemove.addEventListener("click", () => removeCard(card)); 
-  // слушатель на открытие модального окна при нажатии на картинку
-  cardImage.addEventListener("click", () =>  openPopupImage(cardImage.src, cardImage.alt));
+  // Удаление карточки
+  buttonRemove.addEventListener("click", () => removeCard(card));
+  // Лайк
+  addEventLike(cardLikeButton);
+  // Слушатель на открытие модального окна при нажатии на картинку
+  cardImageEventlistener(cardImage, cardImage.src, cardImage.alt);
 
   return card;
 }
 
+// Добавление слушателя и функции открытия попапа
+function cardImageEventlistener(cardImage, cardImageSrc, cardImageAlt) {
+  cardImage.addEventListener("click", () =>
+    openPopupImage(cardImageSrc, cardImageAlt)
+  );
+}
+
 // Кнопка Like в карточках
-export function addEventLike() {
-  const cardLikeArrayButton = document.querySelectorAll('.card__like-button');
-  
-  cardLikeArrayButton.forEach(likeButton => {
-    likeButton.addEventListener('click', () => clickLikeHandler(likeButton));
-  })
+function addEventLike(likeButton) {
+  likeButton.addEventListener("click", () => clickLikeHandler(likeButton));
 }
 
 function clickLikeHandler(cardLikeButton) {
@@ -54,18 +72,17 @@ export function handleFormSubmitCard(evt) {
     link,
     alt,
   };
-  let cardTemplate = createCard(tempObject, removeCard);
+
+  let cardTemplate = createCard(
+    tempObject,
+    removeCard,
+    addEventLike,
+    cardImageEventlistener
+  );
   cardsContainer.prepend(cardTemplate);
 
   newPlace.reset();
   closePopup(popupTypeNewCard);
-}
-
-export function renderCards() {
-  initialCards.forEach((cardData) => {
-    let cardTemplate = createCard(cardData, removeCard);
-    cardsContainer.append(cardTemplate);
-  });
 }
 
 newPlace.addEventListener("submit", handleFormSubmitCard);
