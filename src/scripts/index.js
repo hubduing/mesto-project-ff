@@ -1,6 +1,6 @@
 import "../pages/index.css";
-import { openPopup, closePopup } from "../components/modal.js";
-import { renderCards, addEventLike } from "../components/card.js";
+import { openPopup, closePopup, closePopupByEsc, clickPopupHandler } from "../components/modal.js";
+import { renderCards } from "../components/card.js";
 // @todo: DOM узлы
 import {
   popupTypeNewCard,
@@ -20,13 +20,13 @@ renderCards();
 
 // Слушатели на кнопки для открытия попапов
 profileEditButton.addEventListener("click", () => {
-  openPopup(popupTypeEdit);
+  openPopup(popupTypeEdit, closePopupByEsc, clickPopupHandler);
 
   name.value = nameInput.textContent;
   description.value = jobInput.textContent;
 });
 profileAddButton.addEventListener("click", () => {
-  openPopup(popupTypeNewCard);
+  openPopup(popupTypeNewCard, closePopupByEsc, clickPopupHandler);
 });
 
 // Popup animated

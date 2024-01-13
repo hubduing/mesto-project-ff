@@ -2,7 +2,7 @@ import { popupTypeImage } from "./constans";
 
 // Открытие popup image
 export function openPopupImage(cardImageSrc, cardImageAlt) {
-  openPopup(popupTypeImage);
+  openPopup(popupTypeImage, closePopupByEsc, clickPopupHandler);
 
   const popupImage = document.querySelector(".popup__image");
   popupImage.src = cardImageSrc;
@@ -12,23 +12,25 @@ export function openPopupImage(cardImageSrc, cardImageAlt) {
   popupCaption.textContent = cardImageAlt;
 }
 // Открытие popup
-export function openPopup(popup) {
+export function openPopup(popup, closePopupByEsc, clickPopupHandler) {
   popup.classList.add("popup_is-opened");
   popup.addEventListener("click", clickPopupHandler);
-  document.addEventListener("keydown", closePopupByEsc(popup));
+  document.addEventListener("keydown", closePopupByEsc);
 }
-function closePopupByEsc(popup) {
-  return (evt) => {
-    if (evt.key === "Escape") {
-      closePopup(popup);
-    }
-  };
-}
+
 // Закрыть popup
-export function closePopup(popup) {
+export function closePopup(popup, closePopupByEsc, clickPopupHandler) {
   popup.classList.remove("popup_is-opened");
   popup.removeEventListener("click", clickPopupHandler);
-  document.removeEventListener("keydown", closePopupByEsc(popup));
+  document.removeEventListener("keydown", closePopupByEsc);
+}
+
+// Закрыть popup ESCAPE
+export function closePopupByEsc(evt) {
+  const openedPopup = document.querySelector('.popup_is-opened');
+  if (evt.key === "Escape" && openedPopup) {
+    closePopup(openedPopup);
+  }
 }
 
 // Слушатель закрытия на popup
