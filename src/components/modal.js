@@ -42,3 +42,4 @@ export function clickPopupHandler(evt) {
     closePopup(evt.currentTarget);
   }
 }
+
