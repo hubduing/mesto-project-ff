@@ -47,8 +47,8 @@
               type="text"
               name="name"
               class="popup__input popup__input_type_name"
-              pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$"
-              data-error-message="Разрешены только латинские и кириллические буквы"
+              pattern="^[a-zA-Zа-яА-ЯёЁ\-\s\,]+$"
+              data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
               placeholder="Имя"
               minlength="2"
               maxlength="40"
@@ -64,12 +64,16 @@
               name="description"
               class="popup__input popup__input_type_description"
               placeholder="Занятие"
-              pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$"
-              data-error-message="Разрешены только латинские и кириллические буквы"
+              pattern="^[a-zA-Zа-яА-ЯёЁ\-\s\,]+$"
+              data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
               required
             />
             <span class="description-input-error popup__input-error"></span>
-            <button type="submit" class="button popup__button">
+            <button
+              name="profileButton"
+              type="submit"
+              class="button popup__button"
+            >
               Сохранить
             </button>
           </form>
@@ -82,8 +86,8 @@
           <form class="popup__form" name="new-place">
             <input
               id="place-name-input"
-              pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$"
-              data-error-message="Разрешены только латинские и кириллические буквы"
+              pattern="^[a-zA-Zа-яА-ЯёЁ\-\s\,]+$"
+              data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
               type="text"
               required
               name="place-name"
@@ -103,7 +107,11 @@
               required
             />
             <span class="url-input-error popup__input-error"></span>
-            <button type="submit" class="button popup__button">
+            <button
+              name="card-button"
+              type="submit"
+              class="button popup__button"
+            >
               Сохранить
             </button>
           </form>
@@ -116,6 +124,17 @@
           <p class="popup__caption"></p>
         </div>
       </div>
+      <div class="popup popup_type_remove-card">
+        <div class="popup__content">
+          <button type="button" class="popup__close"></button>
+          <p class="popup__remove-text">Вы уверены?</p>
+          <button
+              name="card-button"
+              type="submit"
+              class="button popup__button"
+            >Да</button>
+        </div>
+      </div>
     </div>
 
     <template id="card-template">
@@ -124,7 +143,10 @@
         <button type="button" class="card__delete-button"></button>
         <div class="card__description">
           <h2 class="card__title"></h2>
-          <button type="button" class="card__like-button"></button>
+          <div class="card__like-button-container">
+            <button type="button" class="card__like-button"></button>
+            <span class="card__like-button-counter"></span>
+          </div>
         </div>
       </li>
     </template>

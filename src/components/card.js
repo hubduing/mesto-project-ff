@@ -1,12 +1,26 @@
-import { openPopupImage } from "./modal";
-import initialCards from "../scripts/cards.js";
-import { closePopup } from "./modal";
-import { popupTypeNewCard, newPlace, cardsContainer } from "./constans.js";
+import {
+  openPopupImage,
+  openPopup,
+  closePopup,
+  closePopupByEsc,
+  clickPopupHandler,
+} from "./modal";
+import { responseCards } from "../scripts/api.js";
+import {
+  popupTypeNewCard,
+  newPlace,
+  cardsContainer,
+  config,
+  popupTypeRemoveCard,
+  buttonRemoveCard,
+} from "./constans.js";
+import { removeCard as deleteCard } from "../scripts/api.js";
+import { clearValidation } from "../scripts/index.js";
 
 export function renderCards() {
-  initialCards.forEach((cardData) => {
-    let cardTemplate = createCard(
-      cardData,
+  responseCards.forEach((res) => {
+    const cardTemplate = createCard(
+      res,
       removeCard,
       likeButtonHandler,
       openPopupImage
@@ -28,15 +42,29 @@ export function createCard(
   const buttonRemove = card.querySelector(".card__delete-button");
   const cardImage = card.querySelector(".card__image");
   const cardLikeButton = card.querySelector(".card__like-button");
+  const cardLikeButtonCounter = card.querySelector(".card__like-button-counter");
+
   card.querySelector(".card__title").textContent = cardData.name;
   cardImage.src = cardData.link;
   cardImage.alt = cardData.alt;
+  cardLikeButtonCounter.textContent = cardData.likes.length;
   // Удаление карточки
-  buttonRemove.addEventListener("click", () => removeCard(card));
+  buttonRemove.addEventListener("click", () =>
+    removeCard(config, cardData._id)
+  );
   // Лайк
-  cardLikeButton.addEventListener('click', () => likeButtonHandler(cardLikeButton))
+  cardLikeButton.addEventListener("click", () =>
+    likeButtonHandler(cardLikeButton)
+  );
+
+  if (cardData.owner._id !== "a6fb6bb20f197f449e715fb3") {
+    buttonRemove.style.display = "none";
+  }
+
   // Слушатель на открытие модального окна при нажатии на картинку
-  cardImage.addEventListener('click', () => openPopupImage(cardImage.src, cardImage.alt));
+  cardImage.addEventListener("click", () =>
+    openPopupImage(cardImage.src, cardImage.alt)
+  );
 
   return card;
 }
@@ -47,8 +75,14 @@ function likeButtonHandler(likeButton) {
 }
 
 // @todo: Функция удаления карточки
-export function removeCard(card) {
-  card.remove();
+export function removeCard(config, _id) {
+  openPopup(popupTypeRemoveCard, closePopupByEsc, clickPopupHandler);
+  // clearValidation(profileForm, validationConfig);
+
+  buttonRemoveCard.addEventListener("click", () => {
+    deleteCard(config, _id);
+    closePopup(popupTypeRemoveCard);
+  });
 }
 // Добавление новой карточки
 export function handleFormSubmitCard(evt) {
@@ -56,14 +90,16 @@ export function handleFormSubmitCard(evt) {
   const name = newPlace.elements["place-name"].value;
   const link = newPlace.elements.link.value;
   const alt = "";
-  let tempObject = {
+  let cardData = {
     name,
     link,
     alt,
+    likes: [],
+    owner: {}
   };
 
   let cardTemplate = createCard(
-    tempObject,
+    cardData,
     removeCard,
     likeButtonHandler,
     openPopupImage
