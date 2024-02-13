@@ -5,7 +5,6 @@ import {
   closePopupByEsc,
   clickPopupHandler,
 } from "./modal";
-import { responseCards } from "../scripts/api.js";
 import {
   popupTypeNewCard,
   newPlace,
@@ -14,7 +13,11 @@ import {
   popupTypeRemoveCard,
   buttonRemoveCard,
 } from "./constans.js";
-import { removeCard as deleteCard } from "../scripts/api.js";
+import {
+  removeCard as deleteCard,
+  likeCard,
+  responseCards
+} from "../scripts/api.js";
 import { clearValidation } from "../scripts/index.js";
 
 export function renderCards() {
@@ -42,7 +45,9 @@ export function createCard(
   const buttonRemove = card.querySelector(".card__delete-button");
   const cardImage = card.querySelector(".card__image");
   const cardLikeButton = card.querySelector(".card__like-button");
-  const cardLikeButtonCounter = card.querySelector(".card__like-button-counter");
+  const cardLikeButtonCounter = card.querySelector(
+    ".card__like-button-counter"
+  );
 
   card.querySelector(".card__title").textContent = cardData.name;
   cardImage.src = cardData.link;
@@ -54,7 +59,7 @@ export function createCard(
   );
   // Лайк
   cardLikeButton.addEventListener("click", () =>
-    likeButtonHandler(cardLikeButton)
+    likeButtonHandler(cardLikeButton, cardLikeButtonCounter, cardData._id)
   );
 
   if (cardData.owner._id !== "a6fb6bb20f197f449e715fb3") {
@@ -70,7 +75,13 @@ export function createCard(
 }
 
 // Кнопка Like в карточках
-function likeButtonHandler(likeButton) {
+function likeButtonHandler(likeButton, cardLikeButtonCounter, _id) {
+  if (likeButton.classList.contains("card__like-button_is-active")) {
+    likeCard(config, _id, cardLikeButtonCounter, "DELETE")
+  } else {
+    likeCard(config, _id, cardLikeButtonCounter, "PUT")
+  }
+
   likeButton.classList.toggle("card__like-button_is-active");
 }
 
@@ -95,7 +106,7 @@ export function handleFormSubmitCard(evt) {
     link,
     alt,
     likes: [],
-    owner: {}
+    owner: {},
   };
 
   let cardTemplate = createCard(

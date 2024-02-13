@@ -31,6 +31,10 @@
   color: rgba(255, 0, 0, 1);
 }
 
+.popup_type_edit-avatar .popup__input {
+  padding-top: 0;
+}
+
 @media screen and (max-width: 568px) {
   .popup__title {
     font-size: 12px;

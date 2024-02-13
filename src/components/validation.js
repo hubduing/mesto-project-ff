@@ -1,6 +1,4 @@
 
-import { validationConfig } from "../components/constans.js"
-
 const showInputError = (formElement, inputElement, errorMessage) => {
     // Находим элемент ошибки внутри самой функции
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
@@ -36,7 +34,6 @@ const showInputError = (formElement, inputElement, errorMessage) => {
     // Находим в текущей форме кнопку отправки
     const buttonElement = formElement.querySelector(".popup__button");
 
-  
     inputList.forEach((inputElement) => {
       inputElement.addEventListener("input", () => {
         isValid(formElement, inputElement);

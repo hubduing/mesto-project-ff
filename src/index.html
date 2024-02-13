@@ -100,7 +100,6 @@
             <input
               id="url-input"
               type="url"
-              required
               name="link"
               class="popup__input popup__input_type_url"
               placeholder="Ссылка на картинку"
@@ -127,12 +126,34 @@
       <div class="popup popup_type_remove-card">
         <div class="popup__content">
           <button type="button" class="popup__close"></button>
-          <p class="popup__remove-text">Вы уверены?</p>
-          <button
+          <h3 class="popup__title">Вы уверены?</h3>
+          <button name="card-button" type="submit" class="button popup__button">
+            Да
+          </button>
+        </div>
+      </div>
+      <div class="popup popup_type_edit-avatar">
+        <div class="popup__content">
+          <button type="button" class="popup__close"></button>
+          <h3 class="popup__title">Обновить аватар</h3>
+          <form class="popup__form" name="profile-image">
+            <input
+              id="url-input"
+              type="url"
+              name="link"
+              class="popup__input popup__input_type_url"
+              placeholder="http://somewebsite/someimage.jpg"
+              required
+            />
+            <span class="url-input-error popup__input-error"></span>
+            <button
               name="card-button"
               type="submit"
               class="button popup__button"
-            >Да</button>
+            >
+              Да
+            </button>
+          </form>
         </div>
       </div>
     </div>

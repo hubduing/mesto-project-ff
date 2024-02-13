@@ -10,6 +10,14 @@
   background-image: url(../../../images/avatar.jpg);
 }
 
+.profile__image:hover {
+  background: url(../../../images/edit-icon.svg), url(../../../images/avatar.jpg);
+  background-size: 26px 26px, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 740px) {
   .profile__image {
     margin: 0 10px 0 0;

@@ -43,3 +43,8 @@ export const config = {
     "Content-Type": "application/json",
   },
 };
+export const profileTypeEditAvatar = document.querySelector('.popup_type_edit-avatar');
+export const profileImageInput = profileTypeEditAvatar.querySelector('.popup__input_type_url');
+export const profileImageButton = profileTypeEditAvatar.querySelector('.popup__button');
+
+

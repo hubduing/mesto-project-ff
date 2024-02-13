@@ -9,15 +9,13 @@
   padding: 34px 36px;
 }
 
-.popup_type_remove-card .popup__content {
+.popup__title .popup__content {
   min-height: auto;
 }
 
-.popup__content .popup__remove-text {
-  font-weight: 900;
-  font-size: 24px;
-  line-height: 29px;
-  margin-bottom: 0;
+.popup_type_edit-avatar .popup__content,
+.popup_type_remove-card .popup__content {
+  min-height: 0;
 }
 
 @media screen and (max-width: 568px) {

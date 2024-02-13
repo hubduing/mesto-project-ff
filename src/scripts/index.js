@@ -25,12 +25,16 @@ import {
   nameCard,
   urlCard,
   buttonCard,
+  profileTypeEditAvatar,
+  profileImageInput,
+  profileImageButton
 } from "../components/constans.js";
 import { setEventListeners } from "../components/validation.js";
 import {
   getInitialUsers,
   pathProfileUsers,
   pathCard,
+  changeAvatar
 } from "./api.js";
 
 // @todo: Вывести карточки на страницу
@@ -49,6 +53,11 @@ profileAddButton.addEventListener("click", () => {
   clearValidation(profileForm, validationConfig);
 });
 
+profileImage.addEventListener('click', () => {
+  openPopup(profileTypeEditAvatar, closePopupByEsc, clickPopupHandler)
+  clearValidation(profileForm, validationConfig);
+})
+
 // Popup animated
 popupArray.forEach((popup) => {
   popup.classList.add("popup_is-animated");
@@ -62,6 +71,13 @@ function handleProfileFormSubmit(evt) {
   closePopup(popupTypeEdit);
 }
 
+function handleProfileImageSubmit(evt) {
+  evt.preventDefault();
+  changeAvatar(config, profileImageInput, profileImage);
+  closePopup(profileTypeEditAvatar);
+}
+
+profileImageButton.addEventListener('click', handleProfileImageSubmit);
 profileForm.addEventListener("submit", handleProfileFormSubmit);
 
 // validation
