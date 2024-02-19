@@ -1,44 +1,27 @@
-import { config } from "../components/constans.js";
-import { openPopup } from "../components/modal.js";
+import { config } from "../utils/constans.js";
 
-export const getInitialUsers = (config) => {
-  return fetch(`${config.baseUrl}/users/me`, {
-    headers: config.headers,
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .then((result) => {
-      return result;
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
-};
-
-export function getInitialCards(config) {
-  return fetch(`${config.baseUrl}/cards`, {
-    headers: config.headers,
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .then((result) => {
-      return result;
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+function resolveCheck(res) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка: ${res.status}`);
 }
-export let responseCards = await getInitialCards(config);
 
-export const pathProfileUsers = (config, name, about) => {
+export function getInitialUsers() {
+  return fetch(`${config.baseUrl}/users/me`, {
+    method: "GET",
+    headers: config.headers,
+  }).then(res => resolveCheck(res));
+}
+
+export function getInitialCards() {
+  return fetch(`${config.baseUrl}/cards`, {
+    method: "GET",
+    headers: config.headers,
+  }).then(res => resolveCheck(res));
+}
+
+export const pathProfileUsers = (name, about) => {
   return fetch(`${config.baseUrl}/users/me`, {
     method: "PATCH",
     headers: config.headers,
@@ -46,27 +29,17 @@ export const pathProfileUsers = (config, name, about) => {
       name: name,
       about: about,
     }),
-  });
+  }).then(res => resolveCheck(res));
 };
 
-export const removeCard = (config, _id) => {
+export const removeCard = (_id) => {
   return fetch(`${config.baseUrl}/cards/${_id}`, {
     method: "DELETE",
     headers: config.headers,
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .then((res) => console.log(res))
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+  }).then(res => resolveCheck(res));
 };
 
-export const pathCard = (config, name, link) => {
+export const pathCard = (name, link) => {
   return fetch(`${config.baseUrl}/cards `, {
     method: "POST",
     headers: config.headers,
@@ -74,47 +47,22 @@ export const pathCard = (config, name, link) => {
       name: name,
       link: link,
     }),
-  });
+  }).then(res => resolveCheck(res));
 };
 
-export const likeCard = (config, _id, cardLikeButtonCounter, methodFetch) => {
+export const likeCard = (_id, methodFetch) => {
   return fetch(`${config.baseUrl}/cards/likes/${_id}`, {
     method: methodFetch,
     headers: config.headers,
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .then((res) => {
-      cardLikeButtonCounter.textContent = res.likes.length;
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+  }).then(res => resolveCheck(res));
 };
 
-export const changeAvatar = (config, profileImageInput, profileImage) => {
+export const changeAvatar = (profileImageInput) => {
   return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: "PATCH",
     headers: config.headers,
     body: JSON.stringify({
       avatar: profileImageInput.value,
     }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .then((url) => {
-      profileImage.style.background = `url(${url.avatar})`;
-      profileImage.style.backgroundSize = "cover";
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+  }).then(res => resolveCheck(res));
 };

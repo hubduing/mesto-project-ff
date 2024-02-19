@@ -1,16 +1,3 @@
-import { popupTypeImage } from "./constans";
-
-// Открытие popup image
-export function openPopupImage(cardImageSrc, cardImageAlt) {
-  openPopup(popupTypeImage, closePopupByEsc, clickPopupHandler);
-
-  const popupImage = document.querySelector(".popup__image");
-  popupImage.src = cardImageSrc;
-  popupImage.alt = cardImageAlt;
-
-  const popupCaption = document.querySelector(".popup__caption");
-  popupCaption.textContent = cardImageAlt;
-}
 // Открытие popup
 export function openPopup(popup, closePopupByEsc, clickPopupHandler) {
   popup.classList.add("popup_is-opened");
