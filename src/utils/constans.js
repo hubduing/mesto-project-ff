@@ -4,7 +4,7 @@ export const validationConfig = {
   submitButtonSelector: ".popup__button",
   inactiveButtonClass: "form__submit_inactive",
   inputErrorClass: ".popup__input-error",
-  errorClass: "popup__error_visible",
+  errorClass: "form__input-error_active",
 };
 export const config = {
   baseUrl: "https://nomoreparties.co/v1/wff-cohort-6",

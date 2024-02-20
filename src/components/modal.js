@@ -30,3 +30,14 @@ export function clickPopupHandler(evt) {
   }
 }
 
+// Открытие popup image
+export function openPopupImage(popupTypeImage, cardImageSrc, cardImageAlt) {
+  openPopup(popupTypeImage, closePopupByEsc, clickPopupHandler);
+
+  const popupImage = document.querySelector(".popup__image");
+  popupImage.src = cardImageSrc;
+  popupImage.alt = cardImageAlt;
+
+  const popupCaption = document.querySelector(".popup__caption");
+  popupCaption.textContent = cardImageAlt;
+}
