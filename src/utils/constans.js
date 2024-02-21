@@ -13,7 +13,4 @@ export const config = {
     "Content-Type": "application/json",
   },
 };
-export const newPlace = document.forms["new-place"];
-export const nameCard = newPlace.elements["place-name"];
-export const linkCard = newPlace.elements.link;
-export const buttonCard = newPlace.elements["card-button"];
+
