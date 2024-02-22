@@ -145,8 +145,7 @@ enableValidation(validationConfig);
 // api
 Promise.all([getInitialUsers(), getInitialCards()])
   .then(([responseUsers, responseCardData]) => {
-    profileImage.style.background = `url(../images/edit-icon,svg), url(${responseUsers.avatar})`;
-    profileImage.style.backgroundSize = "cover";
+    profileImage.style.backgroundImage = `url(${responseUsers.avatar})`;
     profileTitle.textContent = responseUsers.name;
     profileDescription.textContent = responseUsers.about;
     // @todo: Вывести карточки на страницу
