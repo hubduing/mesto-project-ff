@@ -57,14 +57,18 @@ function checkMylike(cardData, myId, cardLikeButton) {
 // Кнопка Like в карточках
 function likeButtonHandler(likeButton, _id, cardLikeButtonCounter) {
   if (likeButton.classList.contains("card__like-button_is-active")) {
-    likeCard(_id, "DELETE").then((res) => {
-      likeButton.classList.remove("card__like-button_is-active");
-      cardLikeButtonCounter.textContent = res.likes.length;
-    });
+    likeCard(_id, "DELETE")
+      .then((res) => {
+        likeButton.classList.remove("card__like-button_is-active");
+        cardLikeButtonCounter.textContent = res.likes.length;
+      })
+      .catch((err) => console.log(err));
   } else {
-    likeCard(_id, "PUT").then((res) => {
-      likeButton.classList.add("card__like-button_is-active");
-      cardLikeButtonCounter.textContent = res.likes.length;
-    });
+    likeCard(_id, "PUT")
+      .then((res) => {
+        likeButton.classList.add("card__like-button_is-active");
+        cardLikeButtonCounter.textContent = res.likes.length;
+      })
+      .catch((err) => console.log(err));
   }
 }

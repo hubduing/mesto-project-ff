@@ -1,5 +1,9 @@
 import "../pages/index.css";
-import { openPopup, closePopup } from "../components/modal.js";
+import {
+  openPopup,
+  closePopup,
+  clickPopupHandler,
+} from "../components/modal.js";
 import {
   clearValidation,
   setEventListeners,
@@ -37,17 +41,14 @@ const newPlace = document.forms["new-place"];
 const nameCard = newPlace.elements["place-name"];
 const linkCard = newPlace.elements.link;
 const buttonCard = newPlace.elements["card-button"];
+const popups = document.querySelectorAll(".popup");
 
 // Слушатели на кнопки для открытия попапов
 profileEditButton.addEventListener("click", () => {
   openPopup(popupTypeEdit);
-  if (
-    !name.classList.contains("form__input-error_active") &&
-    !description.classList.contains("form__input-error_active")
-  ) {
-    name.value = profileTitle.textContent;
-    description.value = profileDescription.textContent;
-  }
+  name.value = profileTitle.textContent;
+  description.value = profileDescription.textContent;
+  clearValidation(profileForm, validationConfig);
 });
 
 profileAddButton.addEventListener("click", () => {
@@ -61,6 +62,10 @@ profileImage.addEventListener("click", () => {
 // Popup animated
 popupArray.forEach((popup) => {
   popup.classList.add("popup_is-animated");
+});
+
+popups.forEach((popup) => {
+  popup.addEventListener("click", clickPopupHandler);
 });
 
 // Открытие popup image
@@ -84,7 +89,6 @@ function handleCardFormSubmit(evt) {
       addNewCard(res, cardsContainer);
       closePopup(popupTypeNewCard);
       newPlace.reset();
-      clearValidation(newPlace, validationConfig);
     })
     .catch((err) => console.log(err))
     .finally(() => {
@@ -102,7 +106,6 @@ function handleProfileFormSubmit(evt) {
       profileTitle.textContent = name.value;
       profileDescription.textContent = description.value;
       closePopup(popupTypeEdit);
-      clearValidation(profileForm, validationConfig);
     })
     .catch((err) => console.log(err))
     .finally(() => {
@@ -121,7 +124,6 @@ function handleProfileImageSubmit(evt) {
       profileImage.style.backgroundSize = "cover";
       closePopup(profileTypeEditAvatar);
       profileFormAvatar.reset();
-      clearValidation(profileFormAvatar, validationConfig);
     })
     .catch((err) => console.log(err))
     .finally(() => {
